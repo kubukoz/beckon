@@ -29,3 +29,9 @@ so just copy/paste the things you're interested in (the source lives in `src/mai
 ## Possibly more sane alternatives
 
 See [cats-tagless](https://github.com/typelevel/cats-tagless). They have an annotation for that.
+
+## FAQ
+
+Q: Why not a single trait for all possible shapes?
+
+A: kind polymorphism isn't a thing in Scala 2.x :(
