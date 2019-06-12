@@ -8,7 +8,7 @@ class BeckonTests extends WordSpec with Matchers {
       trait Show[T] { def show(t: T): String }
       object Show extends Summon0[Show]
 
-      implicit val intShow: Show[Int] = _.toString
+      implicit val intShow: Show[Int] = new Show[Int] { def show(s: Int): String = s.toString }
 
       Show[Int].show(5) shouldBe "5"
     }

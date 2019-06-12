@@ -13,20 +13,22 @@ inThisBuild(
     )
   ))
 
-val compilerPlugins = List(
-  compilerPlugin("org.scalamacros" % "paradise" % "2.1.1").cross(CrossVersion.full),
-  compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.9")
+def compilerPlugins(scalaVersion: String) = (if(!scalaVersion.startsWith("2.13.")) List(
+  compilerPlugin("org.scalamacros" % "paradise" % "2.1.1").cross(CrossVersion.full)
+) else Nil) ++ List(
+  compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3")
 )
 
 val commonSettings = Seq(
   scalaVersion := "2.12.8",
-  scalacOptions ++= Options.all,
+  crossScalaVersions := List("2.11.12", "2.12.8", "2.13.0"),
+  scalacOptions ++= Options.all(scalaVersion.value),
   fork in Test := true,
   name := "beckon",
   updateOptions := updateOptions.value.withGigahorse(false), //may fix publishing bug
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest" % "3.0.5" % Test
-  ) ++ compilerPlugins
+    "org.scalatest" %% "scalatest" % "3.0.8" % Test
+  ) ++ compilerPlugins(scalaVersion.value)
 )
 
 val core = project.settings(commonSettings).settings(name += "-core")
